@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Page Sécurisée - Cours PSE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background-color: #f4f1ea;
+            margin: 0;
+            padding: 20px;
+            color: #4a4a4a;
+            position: relative;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #8b6f47;
+            font-family: 'Great Vibes', cursive;
+            font-size: 3em;
+        }
+
+        h2 {
+            font-size: 2em;
+        }
+
+        /* Conteneur pour le mur */
+        .wall-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            z-index: 1;
+        }
+
+        /* Style des cartes */
+        .course-card {
+            background-color: #fffaf0;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+            position: relative;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background-color: #e0e0e0;
+            border: 2px solid #8b6f47;
+        }
+
+        .course-card h3 {
+            color: #8b6f47;
+            margin: 10px 0;
+            font-size: 1.3em;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .course-card p {
+            color: #7a5c35;
+            font-size: 0.9em;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .course-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #c29e7a;
+            color: black;
+            font-weight: normal;
+            font-size: 0.9em;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 1px solid #c29e7a;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .course-card a:hover {
+            background-color: #a9835a;
+        }
+
+        /* Style des étiquettes (tags) */
+        .tags {
+            margin-top: 10px;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #ece2d0;
+            color: #8b6f47;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 5px;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Bouton pour ajouter une nouvelle carte */
+        .add-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 300px;
+            height: 150px;
+            border: 2px dashed #8b6f47;
+            border-radius: 15px;
+            color: #8b6f47;
+            font-size: 2em;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .add-card:hover {
+            background-color: #8b6f47;
+            color: white;
+        }
+
+        /* Bouton de suppression stylisé */
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            color: #8b6f47;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            background-color: #f4f1ea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-btn:hover {
+            background-color: #8b6f47;
+            color: white;
+        }
+
+        /* Input de fichier caché */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Liste des fichiers */
+        .file-list {
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .file-list a {
+            display: block;
+            color: #8b6f47;
+            margin-top: 5px;
+            text-decoration: none;
+        }
+
+        .file-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* Émoticônes */
+        .emoji-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .emoji {
+            font-size: 4em;
+            opacity: 0.3;
+            transform: translateY(-50%);
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Bienvenue sur votre espace de révisions</h1>
+    <h2>Les cours de Prévention Santé Environnement</h2>
+
+    <div class="wall-container">
+        <!-- Carte du cours 1 -->
+        <div class="course-card">
+            <button class="delete-btn" onclick="deleteCard(this)">✖</button>
+            <img src="https://img.icons8.com/fluency-systems-filled/100/000000/book-shelf.png" alt="Système de santé">
+            <h3>Système de Santé</h3>
+            <p>Découvrez le fonctionnement du système de santé en France.</p>
+            <div class="tags">
+                <span class="tag">Santé</span>
+                <span class="tag">Organisation</span>
+            </div>
+            <label for="upload1" class="upload-label">
+                <a>Télécharger</a>
+            </label>
+            <input type="file" id="upload1" class="file-upload" onchange="handleFileUpload(this)">
+            <div class="file-list" id="fileList1"></div>
+        </div>
+
+        <!-- Carte du cours 2 -->
+        <div class="course-card">
+            <button class="delete-btn" onclick="deleteCard(this)">✖</button>
+            <img src="https://img.icons8.com/fluency-systems-filled/100/000000/book-shelf.png" alt="Le sommeil">
+            <h3>Le Sommeil</h3>
+            <p>Tout ce qu'il faut savoir pour mieux dormir et rester en bonne santé.</p>
+            <div class="tags">
+                <span class="tag">Sommeil</span>
+                <span class="tag">Bien-être</span>
+            </div>
+            <label for="upload2" class="upload-label">
+                <a>Télécharger</a>
+            </label>
+            <input type="file" id="upload2" class="file-upload" onchange="handleFileUpload(this)">
+            <div class="file-list" id="fileList2"></div>
+        </div>
+
+        <!-- Carte du cours 3 -->
+        <div class="course-card">
+            <button class="delete-btn" onclick="deleteCard(this)">✖</button>
+            <img src="https://img.icons8.com/fluency-systems-filled/100/000000/book-shelf.png" alt="Activité physique">
+            <h3>Activité Physique</h3>
+            <p>L'importance de l'activité physique régulière pour une vie saine.</p>
+            <div class="tags">
+                <span class="tag">Santé</span>
+                <span class="tag">Sport</span>
+            </div>
+            <label for="upload3" class="upload-label">
+                <a>Télécharger</a>
+            </label>
+            <input type="file" id="upload3" class="file-upload" onchange="handleFileUpload(this)">
+            <div class="file-list" id="fileList3"></div>
+        </div>
+
+        <!-- Carte du cours 4 -->
+        <div class="course-card">
+            <button class="delete-btn" onclick="deleteCard(this)">✖</button>
+            <img src="https://img.icons8.com/fluency-systems-filled/100/000000/book-shelf.png" alt="Les addictions">
+            <h3>Les Addictions</h3>
+            <p>Comprendre les différentes formes d'addictions et comment les prévenir.</p>
+            <div class="tags">
+                <span class="tag">Prévention</span>
+                <span class="tag">Santé mentale</span>
+            </div>
+            <label for="upload4" class="upload-label">
+                <a>Télécharger</a>
+            </label>
+            <input type="file" id="upload4" class="file-upload" onchange="handleFileUpload(this)">
+            <div class="file-list" id="fileList4"></div>
+        </div>
+
+        <!-- Carte du cours 5 -->
+        <div class="course-card">
+            <button class="delete-btn" onclick="deleteCard(this)">✖</button>
+            <img src="https://img.icons8.com/fluency-systems-filled/100/000000/book-shelf.png" alt="La sexualité">
+            <h3>La Sexualité</h3>
+            <p>Informations essentielles sur la sexualité et l'éducation sexuelle.</p>
+            <div class="tags">
+                <span class="tag">Éducation</span>
+                <span class="tag">Santé</span>
+            </div>
+            <label for="upload5" class="upload-label">
+                <a>Télécharger</a>
+            </label>
+            <input type="file" id="upload5" class="file-upload" onchange="handleFileUpload(this)">
+            <div class="file-list" id="fileList5"></div>
+        </div>
+
+        <!-- Bouton pour ajouter une nouvelle carte -->
+        <div class="add-card" onclick="addNewCard()">+</div>
+    </div>
+
+    <!-- Émoticônes décoratives -->
+    <div class="emoji-container">
+        <span class="emoji">📚</span>
+        <span class="emoji">📝</span>
+        <span class="emoji">🎓</span>
+        <span class="emoji">💼</span>
+        <span class="emoji">📊</span>
+    </div>
+
+    <script>
+        function handleFileUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                const fileListId = "fileList" + input.id.replace("upload", "");
+                const fileList = document.getElementById(fileListId);
+                const card = input.closest('.course-card');
+                const imgElement = card.querySelector('img');
+
+                // Remplacer l'image par une émoticône "Prêt" si un fichier est téléchargé
+                imgElement.src = "https://img.icons8.com/color/96/000000/checkmark.png";
+                imgElement.alt = "Cours prêt";
+
+                // Ajouter un lien pour consulter le fichier
+                const fileLink = document.createElement("a");
+                fileLink.href = URL.createObjectURL(file);
+                fileLink.textContent = file.name;
+                fileLink.target = "_blank";
+                fileList.appendChild(fileLink);
+            }
+        }
+
+        function deleteCard(button) {
+            const card = button.closest('.course-card');
+            card.remove();
+        }
+
+        function addNewCard() {
+            const wallContainer = document.querySelector('.wall-container');
+            const cardCount = wallContainer.children.length;
+
+            const title = prompt("Entrez le titre du nouveau cours :", "Nouveau Cours " + cardCount);
+            if (title === null || title.trim() === "") {
+                return; // Ne pas ajouter la carte si aucun titre n'est fourni
+            }
+
+            const newCard = document.createElement('div');
+            newCard.classList.add('course-card');
+            newCard.innerHTML = `
+                <button class="delete-btn" onclick="deleteCard(this)">✖</button>
+                <img src="https://img.icons8.com/fluency-systems-filled/100/000000/book-shelf.png" alt="${title}">
+                <h3>${title}</h3>
+                <p>Description du nouveau cours.</p>
+                <div class="tags">
+                    <span class="tag">Nouveau</span>
+                </div>
+                <label for="upload${cardCount}" class="upload-label">
+                    <a>Télécharger</a>
+                </label>
+                <input type="file" id="upload${cardCount}" class="file-upload" onchange="handleFileUpload(this)">
+                <div class="file-list" id="fileList${cardCount}"></div>
+            `;
+            wallContainer.insertBefore(newCard, wallContainer.lastElementChild);
+        }
+
+        // Redirection si accès direct à la page sécurisée
+        if (!sessionStorage.getItem('authenticated')) {
+            window.location.href = "login.html"; // Change "login.html" par le nom de votre page de connexion
+        }
+    </script>
+</body>
+</html>
