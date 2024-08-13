@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Page de Connexion</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f1ea;
+            text-align: center;
+            padding: 50px;
+        }
+        input[type="text"], input[type="password"] {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 80%;
+            max-width: 300px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #8b6f47;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Connexion</h1>
+    <form onsubmit="return authenticate()">
+        <input type="password" id="code" placeholder="Entrez le code d'accès"><br>
+        <input type="submit" value="Se connecter">
+    </form>
+
+    <script>
+        function authenticate() {
+            const code = document.getElementById('code').value;
+            const correctCode = "BrumeauLSaintongePSE2024"; // Remplacez par le code d'accès correct
+
+            if (code === correctCode) {
+                sessionStorage.setItem('authenticated', true);
+                window.location.href = "page_securisee.html"; // Remplacez par le nom de votre page sécurisée
+                return false;
+            } else {
+                alert("Code incorrect");
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
